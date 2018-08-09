@@ -1,0 +1,112 @@
+package com.qfedu.SSHDemo.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.qfedu.SSHDemo.dto.UserDto;
+import com.qfedu.SSHDemo.service.UserService;
+import com.qfedu.SSHDemo.vo.DataTable;
+import com.qfedu.SSHDemo.vo.Result;
+
+@Controller
+@RequestMapping("/user")
+public class UserController {
+	
+	private final static Logger LOG = LogManager.getLogger(MainController.class);
+
+	@Resource
+	private UserService userService;
+	
+	/**
+	 * 打开用户列表
+	 * @return
+	 */
+	@RequestMapping
+	public String toHome(){
+		return "user/page";
+	}
+	
+	/**
+	 * 获取用户列表
+	 * 这个功能返回的是提供给Ajax的Jason格式数据
+	 * @return
+	 */
+	@RequestMapping("/list")
+	@ResponseBody
+	public DataTable list(Integer draw,Integer start, Integer length, 
+			@RequestParam("search[value]") String search, @RequestParam("order[0][dir]") String loginDir){
+		DataTable data = userService.findBySearch(start,length,search,loginDir);
+		data.setDraw(++draw);
+		
+		return data;
+	}
+	
+	
+	
+	/**
+	 * 创建用户
+	 * @return
+	 */
+	@RequestMapping(value="/create",method=RequestMethod.GET)
+	public String create(){
+		
+		return "user/create";
+	}
+	
+	
+	/**
+	 * 保存要创建的用户
+	 * @return
+	 */
+	@RequestMapping(value = "/create",method= RequestMethod.POST)
+	@ResponseBody
+	public Result create(UserDto u){
+		
+		userService.save(u);
+		return new Result().setSuccess(true).setMessage("添加用户成功");		
+	}
+	
+	/**
+	 * 删除用户
+	 * @return
+	 */
+	@RequestMapping(value="/delete")
+	@ResponseBody
+	public Object deleteUsers(Integer[] id){
+			userService.deleteById(id);
+	
+		return new HashMap(){
+			{
+				put("success", true);
+			}
+		};
+	} 
+	
+	/**
+	 * 修改用户
+	 */
+	@RequestMapping(value="update",method=RequestMethod.GET)
+	public String update(Integer id,Map<String, Object>map){
+		 
+		UserDto u = userService.findById(id);
+		map.put("user", u); 
+		return "user/update";
+	}
+	
+	@RequestMapping(value="update",method=RequestMethod.POST)
+	public String update(UserDto u){
+		userService.update(u);
+		return "redirect:/";
+	}
+	
+}

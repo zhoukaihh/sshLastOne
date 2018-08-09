@@ -1,0 +1,73 @@
+package com.qfedu.SSHDemo.dto;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.qfedu.SSHDemo.po.User;
+
+public class UserDto {
+
+	private Integer id;
+	
+	private String loginName;
+	
+	private String password;
+	
+	private String name;
+	
+	
+	public UserDto() {
+	}
+	
+	public UserDto(User u) {
+		this.setId(u.getId());
+		this.setLoginName(u.getLoginName());
+		this.setName(u.getName());
+		this.setPassword(u.getPassword());
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	/**
+	 * 将pos转换成dtos
+	 * @param pos
+	 * @return
+	 */
+	public static List<UserDto> getDtos(List<User> pos){
+		ArrayList<UserDto> dtos = new ArrayList<UserDto>();
+		for (User po : pos) {
+			dtos.add(new UserDto(po));
+		}
+		return dtos;
+	}
+}
