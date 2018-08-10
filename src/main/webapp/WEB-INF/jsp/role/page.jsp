@@ -81,7 +81,7 @@
             function deleteRole (id) {
             	$.post ('${pageContext.request.contextPath}/role/delete', {id : id}, function (result) {
 		    		if (result.success) {
-		    			location.reload ();
+		    			$('#page-wrapper').load('${pageContext.request.contextPath}/role'); 
 		    		} else {
 		    			alert ('删除用户失败！');
 		    		}

@@ -112,4 +112,23 @@ public class RoleController {
 		return "role/update";
 	}
 	
+	@RequestMapping(value="update" , method=RequestMethod.POST)
+	@ResponseBody
+	public Result updateRole(RoleDto r , Integer[] menuIds){
+		roleService.update(r,menuIds);
+		Result result = new Result().setSuccess(true).setMessage("修改成功");
+		return result;
+	}
+	
+	/**
+	 * 执行删除角色
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="delete",method=RequestMethod.POST)
+	@ResponseBody
+	public Result deleteRole(Integer id){
+		roleService.delete(id);
+		return new Result().setSuccess(true).setMessage("删除角色成功");
+	}
 }

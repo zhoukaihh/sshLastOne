@@ -11,6 +11,10 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <form role="form" id="roleUpdateForm">
+                                    	<div class="form-group">
+                                            <label>ID</label>
+                                            <input class="form-control"  name="id" value="${role.id}" >
+                                        </div>
                                         <div class="form-group">
                                             <label>名称</label>
                                             <input class="form-control"  name="name" value="${role.name}" >

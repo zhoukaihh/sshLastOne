@@ -57,4 +57,17 @@ public class RoleDaoImpl implements RoleDao {
 
 	 	return sessionFactory.getCurrentSession().get(Role.class, id);
 	}
+
+
+	@Override
+	public void update(Role po) {
+		sessionFactory.getCurrentSession().update(po);
+		
+	}
+
+
+	@Override
+	public void delete(Role po) {
+		sessionFactory.getCurrentSession().delete(po);
+	}
 }

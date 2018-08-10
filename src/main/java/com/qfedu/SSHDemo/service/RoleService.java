@@ -11,4 +11,8 @@ public interface RoleService {
 
 	RoleDto findById(Integer id);
 
+	void update(RoleDto r, Integer[] menuIds);
+
+	void delete(Integer id);
+
 }

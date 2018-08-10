@@ -91,7 +91,7 @@
             function deleteMenu (id) {
             	$.post ('${pageContext.request.contextPath}/menu/delete', {id : id}, function (result) {
 		    		if (result.success) {
-		    			location.reload ();
+		    			$('#page-wrapper').load ('${pageContext.request.contextPath}/menu');
 		    		} else {
 		    			alert ('删除用户失败！');
 		    		}

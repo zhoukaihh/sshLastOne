@@ -14,6 +14,7 @@ import com.qfedu.SSHDemo.dao.RoleDao;
 import com.qfedu.SSHDemo.dto.RoleDto;
 import com.qfedu.SSHDemo.po.Menu;
 import com.qfedu.SSHDemo.po.Role;
+import com.qfedu.SSHDemo.po.User;
 import com.qfedu.SSHDemo.service.RoleService;
 import com.qfedu.SSHDemo.vo.DataTable;
 
@@ -63,6 +64,34 @@ public class RoleServiceImpl implements RoleService {
 	public RoleDto findById(Integer id) {
 		Role r = roleDao.faindById(id);
 		return new RoleDto(r);
+	}
+
+	@Override
+	public void update(RoleDto r, Integer[] menuIds) {
+		Role po = roleDao.faindById(r.getId());
+		
+		po.setName(r.getName());
+		po.setDescription(r.getDescription());
+		
+		ArrayList<Menu> menus = new ArrayList<Menu>();
+		for (Integer id : menuIds) {
+			Menu menu = new Menu();
+			menu.setId(id);
+			menus.add(menu);
+		}
+		po.setMenus(menus);
+		
+		roleDao.update(po);
+	}
+
+	@Override
+	public void delete(Integer id) {
+		Role po1 = roleDao.faindById(id);
+		User user = new User();
+		po1.setUser(user);
+		roleDao.update(po1);
+		Role po2 = roleDao.faindById(id);
+		roleDao.delete(po2);
 	}
 
 }

@@ -14,4 +14,8 @@ public interface RoleDao {
 
 	Role faindById(Integer id);
 
+	void update(Role po);
+
+	void delete(Role po);
+
 }
