@@ -111,5 +111,5 @@ public class MenuController {
 		menuService.update(m);
 		return "redirect:/";
 	}
-	
+	public void hh(){};
 }
