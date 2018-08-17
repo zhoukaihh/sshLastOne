@@ -52,10 +52,24 @@ public class MenuController {
 		return data;
 	}
 	
+	/**
+	 * 创建父菜单
+	 * @return
+	 */
+	@RequestMapping(value ="/create",method=RequestMethod.GET)
+	public String create (){
+		return "menu/create";
+	}
 	
+	@RequestMapping(value="/create",method=RequestMethod.POST)
+	@ResponseBody
+	public Result create(MenuDto dto){
+		menuService.create(dto);
+		return new Result().setSuccess(true).setMessage("创建父菜单成功");
+	}
 	
 	/**
-	 * 创建菜单
+	 * 创建子菜单
 	 * @return
 	 */
 	@RequestMapping(value="/createChild",method=RequestMethod.GET)
@@ -103,13 +117,13 @@ public class MenuController {
 		 
 		MenuDto m = menuService.findById(id);
 		map.put("menu", m); 
-		return "user/update";
+		return "menu/update";
 	}
 	
 	@RequestMapping(value="update",method=RequestMethod.POST)
-	public String update(MenuDto m){
+	@ResponseBody
+	public Result update(MenuDto m){
 		menuService.update(m);
-		return "redirect:/";
+		return new Result().setSuccess(true).setMessage("修改菜单成功");
 	}
-	public void hh(){};
 }

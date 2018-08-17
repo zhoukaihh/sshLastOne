@@ -12,13 +12,13 @@ public interface UserService {
 
 	User authenticate(String loginName, String password);
 
-	void save(UserDto u);
-
-	void deleteById(Integer[] id);
+	void save(UserDto u, Integer[] roleIds);
 
 	UserDto findById(Integer id);
 
-	void update(UserDto u);
+	void update(UserDto u, Integer[] roleIds);
 
 	DataTable findBySearch(Integer start, Integer length, String search, String loginDir);
+
+	void delete(Integer[] id, UserDto dto);
 }

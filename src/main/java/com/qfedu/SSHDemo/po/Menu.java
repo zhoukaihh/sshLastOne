@@ -3,18 +3,18 @@ package com.qfedu.SSHDemo.po;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.springframework.stereotype.Repository;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -37,17 +37,17 @@ public class Menu {
 	@Column(length=50)
 	private String no;
 	
-	@ManyToMany(mappedBy="menus")
-	private List<Role> roles = new ArrayList<Role>();
-	
-	
 	@ManyToOne
 	@JoinColumn(name="parent_id")
+	@JsonIgnore
 	private Menu parent;
 	
 	@OneToMany(mappedBy="parent")
+	@JsonIgnore
 	private List<Menu> children = new ArrayList<Menu>();
 
+	
+	
 	public Integer getId() {
 		return id;
 	}

@@ -127,7 +127,7 @@ public class RoleController {
 	 */
 	@RequestMapping(value="delete",method=RequestMethod.POST)
 	@ResponseBody
-	public Result deleteRole(Integer id){
+	public Result deleteRole(Integer[] id){
 		roleService.delete(id);
 		return new Result().setSuccess(true).setMessage("删除角色成功");
 	}

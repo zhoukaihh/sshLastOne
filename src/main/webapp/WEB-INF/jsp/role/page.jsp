@@ -79,12 +79,16 @@
             });
             
             function deleteRole (id) {
+            	if (!confirm ('确定要删除选定的角色吗？')) {
+            		return;
+            	}
             	$.post ('${pageContext.request.contextPath}/role/delete', {id : id}, function (result) {
 		    		if (result.success) {
-		    			$('#page-wrapper').load('${pageContext.request.contextPath}/role'); 
-		    		} else {
-		    			alert ('删除用户失败！');
-		    		}
+		    			var tableId = 'roleTable';
+				    	var table = $('#' + tableId).DataTable();
+		    			table.rows('.info').remove().draw(false);
+		    		} 
+		    		alert (result.message);
 		    	});
             }
             
@@ -109,7 +113,7 @@
 		    		return;
 		    	}
 		    	// 让用户确认删除
-		    	if (!confirm ('是否删除选中的用户？')) {
+		    	if (!confirm ('是否删除选中的角色？')) {
 		    		return;
 		    	}
 		    	// 拼接id字符串，多个id逗号隔开

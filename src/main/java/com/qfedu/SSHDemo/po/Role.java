@@ -11,11 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="t_role")
+@Table(name="r_role")
 public class Role {
 
 	@Id
@@ -26,10 +25,6 @@ public class Role {
 	private String name;
 	
 	private String description;
-	
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
 	
 	@ManyToMany
 	@JoinTable(name = "t_role_menu" , joinColumns = @JoinColumn(name = "role_id") , inverseJoinColumns = @JoinColumn(name="menu_id"))
@@ -69,13 +64,6 @@ public class Role {
 		this.menus = menus;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
 	
 	
 }

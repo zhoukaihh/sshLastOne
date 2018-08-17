@@ -18,4 +18,6 @@ public interface MenuService {
 	MenuDto findById(Integer id);
 
 	void update(MenuDto m);
+
+	void create(MenuDto dto);
 }

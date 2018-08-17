@@ -42,4 +42,36 @@ public class StaffDaoImpl implements StaffDao {
 		return count;
 	}
 
+	/**
+	 * 创建人员
+	 */
+	@Override
+	public void save(Staff po) {
+		sessionFactory.getCurrentSession().save(po);
+	}
+
+
+	@Override
+	public Staff findById(Integer id) {
+		String hql = "from Staff s where s.id like :name";
+		return sessionFactory.getCurrentSession().createQuery(hql,Staff.class).setParameter("name", id).uniqueResult();
+		
+	}
+
+	/**
+	 * 修改人员信息
+	 */
+	@Override
+	public void update(Staff po) {
+		sessionFactory.getCurrentSession().update(po);
+	}
+
+	/**
+	 * 删除人员信息
+	 */
+	@Override
+	public void delete(Staff po) {
+		sessionFactory.getCurrentSession().delete(po);
+	}
+
 }

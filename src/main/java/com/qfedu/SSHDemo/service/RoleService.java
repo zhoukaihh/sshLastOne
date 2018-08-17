@@ -13,6 +13,6 @@ public interface RoleService {
 
 	void update(RoleDto r, Integer[] menuIds);
 
-	void delete(Integer id);
+	void delete(Integer[] id);
 
 }

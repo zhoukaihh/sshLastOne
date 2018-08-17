@@ -43,6 +43,14 @@
                        							 <input type="datetime-local" class="form-control" placeholder="请输入创建时间" name="createTime">
                        						 </div>
                     					</div>
+                    					<div class="form-group input-group">
+                                        	<input type="hidden" name="roleIds" id="userFormRoleIds">
+                                            <input type="text" class="form-control" placeholder="请选择角色" id="userFormRoleNames">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button" onclick="selectUserRoles();"><i class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                                        </div>
                                         <button type="button" class="btn btn-default" onclick="submitUserCreateForm();">提交</button>
                                         <button type="reset" class="btn btn-default">重置</button>
                                     </form>
@@ -63,12 +71,16 @@
                 				$('#CreateUserForm').serializeArray(), function (result) {
                 			if (result.success) {
                 				$('#page-wrapper').load ('${pageContext.request.contextPath}/user');
-                				$('#userDialog').modal ('hide');
                 			} else {
                 				alert (result.message);
                 			}
                 		});
                 	} 
+                	function selectUserRoles () {
+                		$('#page-wrapper').hide().attr('id', "page-wrapper2");
+                		$('#wrapper').append ('<div id="page-wrapper">角色列表选择</div>');
+                		$('#page-wrapper').load ('${pageContext.request.contextPath}/user/roles');
+                	}
                 </script>
             </div>
             <!-- /.row -->

@@ -10,4 +10,12 @@ public interface StaffDao {
 
 	Long count(String search);
 
+	void save(Staff po);
+
+	Staff findById(Integer id);
+
+	void update(Staff po);
+
+	void delete(Staff po);
+
 }

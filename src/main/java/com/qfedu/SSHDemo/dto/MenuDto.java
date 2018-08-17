@@ -108,6 +108,11 @@ public class MenuDto {
 		return "";
 	}
 	
+	
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
+
 	public String getParentName() {
 		if (this.parent == null) {
 			return "";

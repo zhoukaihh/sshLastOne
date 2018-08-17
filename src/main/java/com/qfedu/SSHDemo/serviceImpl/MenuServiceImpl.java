@@ -1,5 +1,6 @@
 package com.qfedu.SSHDemo.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -58,9 +59,22 @@ public class MenuServiceImpl implements MenuService {
 		return data;
 	}
 
+	/**
+	 * 创建父菜单
+	 */
+	@Override
+	public void create(MenuDto dto) {
+		Menu po = new Menu();
+		po.setIcon(dto.getIcon());
+		po.setName(dto.getName());
+		po.setNo(dto.getNo());
+		po.setUrl(dto.getUrl());
+		
+		menuDao.save(po);
+	}
 
 	/**
-	 * 保存要添加的菜单
+	 * 保存要添加的子菜单
 	 */
 	@Override
 	public void save(MenuDto m) {
@@ -70,10 +84,10 @@ public class MenuServiceImpl implements MenuService {
 		po.setName(m.getName());
 		po.setNo(m.getNo());
 		po.setUrl(m.getUrl());
+		
 		Menu parent = new Menu();
 		parent.setId(m.getParent().getId());
 		po.setParent(parent);
-		
 		menuDao.save(po);
 	}
 
@@ -104,11 +118,14 @@ public class MenuServiceImpl implements MenuService {
 		Menu po = menuDao.findById(m.getId());
 		po.setName(m.getName());
 		po.setNo(m.getNo());
-		Menu parent = new Menu();
-		parent.setId(m.getParent().getId());
-		po.setParent(parent);
+		Menu menu = new Menu();
+		menu.setId(m.getParent().getId());
+		po.setParent(menu);
 		
 		menuDao.update(po);
 	}
+
+
+	
 
 }

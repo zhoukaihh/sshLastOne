@@ -83,25 +83,11 @@
             });
 
             function createUser () {
-            	// 创建userDailog的div，如果之前存在，先删除
-            	$('#userDialog').remove();
-            	$('body').append ('<div class="modal fade" id="userDialog" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"></div>');
-            	// 显示对话框
-            	$('#userDialog').load ('${pageContext.request.contextPath}/user/create', function () {
-            		$('#userDialog').modal ('show');
-            	});
-            	// $('#page-wrapper').load ('${pageContext.request.contextPath}/user/create');
+            	$('#page-wrapper').load('${pageContext.request.contextPath}/user/create'); 
             }
             
             function updateUser (id) {
-            	// 创建userDailog的div，如果之前存在，先删除
-            	$('#userDialog').remove();
-            	$('body').append ('<div class="modal fade" id="userDialog" tabindex="-1" role="dialog" aria-labelledby="userModalLabel"></div>');
-            	// 
-            	$('#userDialog').load ('${pageContext.request.contextPath}/user/update?id=' + id, function () {
-            		// 调用modal控件的show方法
-            		$('#userDialog').modal ('show');
-            	});
+            	$('#page-wrapper').load('${pageContext.request.contextPath}/user/update?id=' + id); 
             }
             
             function deleteUser (id) {

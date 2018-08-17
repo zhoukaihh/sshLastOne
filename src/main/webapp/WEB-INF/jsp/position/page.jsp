@@ -16,11 +16,10 @@
                             <table width="100%" class="table table-striped table-bordered table-hover" id="positionTable">
                                 <thead>
                                     <tr>
+                                    	<th>ID</th>
                                         <th>职位名</th>
                                         <th>职位描述</th>
                                         <th>级别</th>
-                                        <th>所属部门</th>
-                                        <th>在职人员</th>
                                         <th width="150">操作</th>
                                     </tr>
                                 </thead>
@@ -51,11 +50,10 @@
                     },
                     "order": [[ 2, "asc" ]] ,
                     "columns": [
+                    	{ "data": "id" , "orderable" : false},
                     	{ "data": "name" , "orderable" : false},
                     	{ "data": "description", "orderable" : false},
                         { "data": "level" },
-                        { "data": "dept.name", "orderable" : false},
-                        { "data": "staffNames", "orderable" : false},
                         // 下面在操作列中添加了修改和删除按钮
                         { "data": null , "orderable" : false, "defaultContent": btns}
                     ]
@@ -64,17 +62,14 @@
                 $('#' + tableId + ' tbody').on( 'click', 'a', function () {
                 	// this表示a标签对应dom，$(this)将其转为jQuery对象，获取按钮所在行的json对象，及UserDto
                     var data = table.row( $(this).parents('tr') ).data();
-                	//调用创建子菜单方法
-                	if ($(this).attr('name') == 'createChild') {
-                		createChild(data.id);
-					}
+                	
                 	// 调用修改方法
                 	if ($(this).attr('name') == 'update') {
-                		updateMenu(data.id);
+                		updatePosition(data.id);
                 	}
                 	// 调用删除方法
 					if ($(this).attr('name') == 'delete') {
-						deleteMenu (data.id);
+						deletePosition (data.id);
                 	}
                 } );
              	// 设置列表多选
@@ -84,32 +79,36 @@
                 } );
              	
                 // 添加工具栏按钮，找到设置分页的div，并添加创建和批量删除按钮的a标签
-                $('#' + tableId + '_length').append (" <a class='btn btn-primary btn-sm' onclick='createMenu();'>创建</a> <a class='btn btn-primary btn-warning btn-sm' onclick='deleteMenus();'>批量删除</a>");
+                $('#' + tableId + '_length').append (" <a class='btn btn-primary btn-sm' onclick='createPosition();'>创建</a> <a class='btn btn-primary btn-warning btn-sm' onclick='deletePositions();'>批量删除</a>");
             });
             
-            function deleteMenu (id) {
-            	$.post ('${pageContext.request.contextPath}/menu/delete', {id : id}, function (result) {
+            function deletePosition (id) {
+            	if (!confirm ('确定要删除选定的职位吗？')) {
+            		return;
+            	}
+            	$.post ('${pageContext.request.contextPath}/position/delete', {id : id}, function (result) {
 		    		if (result.success) {
-		    			location.reload ();
-		    		} else {
-		    			alert ('删除用户失败！');
-		    		}
+		    			var tableId = 'positionTable';
+				    	var table = $('#' + tableId).DataTable();
+		    			table.rows('.info').remove().draw(false);
+		    		} 
+		    		alert (result.message);
 		    	});
             }
             
-            function updateMenu (id) {
-            	window.location.href = '${pageContext.request.contextPath}/menu/update?id=' + id;
+            function updatePosition (id) {
+            	$('#page-wrapper').load ('${pageContext.request.contextPath}/position/update?id=' + id);
             }
             
-            function createChild (id) {
-            	$('#page-wrapper').load ('${pageContext.request.contextPath}/menu/createChild?id=' + id);
+            function createPosition () {
+            	$('#page-wrapper').load ('${pageContext.request.contextPath}/position/create');
             }
             
-            function deleteMenus () {
+            function deletePositions () {
             	// 获取DataTable
-		    	var tableId = 'menuTable';
+		    	var tableId = 'positionTable';
 		    	var table = $('#' + tableId).DataTable();
-		    	// 查找样式为info的行，包含所有MenuDto属性
+		    	// 查找样式为info的行，包含所有PositionDto属性
 		    	var rows = table.rows('.info').data();
 		    	// 判断是否有选择
 		    	if (rows.length == 0) {
@@ -129,6 +128,6 @@
 		    		ids += rows[i].id;
 		    	}
 		    	// 发送ajax请求，如果成功刷新本页面，否则提示用户操作失败
-		    	deleteMenu(ids);
+		    	deletePosition(ids);
 		    }
 		    </script>

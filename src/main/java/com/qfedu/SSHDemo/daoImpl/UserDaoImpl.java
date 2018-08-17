@@ -62,11 +62,6 @@ public class UserDaoImpl implements UserDao{
 		return sessionFactory.getCurrentSession().get(User.class, id);
 	}
 
-	@Override
-	public void deleteById(Integer id) {
-		User u = findById(id);
-		sessionFactory.getCurrentSession().delete(u);	
-	}
 
 	@Override
 	public void update(User po) {
@@ -90,6 +85,23 @@ public class UserDaoImpl implements UserDao{
 		Long count = (Long) sessionFactory.getCurrentSession().createQuery(hql).setParameter("name", "%"+search+"%").uniqueResult();
 		
 		return count;
+	}
+
+	/**
+	 * 通过手机号来查询用户，人员查询对应的用户
+	 */
+	@Override
+	public User findByMobile(String mobile) {
+		
+		String hql = "from User u where u.loginName like :name";
+		
+		User user = sessionFactory.getCurrentSession().createQuery(hql,User.class).setParameter("name", mobile).uniqueResult();
+		return user;
+	}
+
+	@Override
+	public void delete(User po) {
+		sessionFactory.getCurrentSession().delete(po);
 	}
 
 	

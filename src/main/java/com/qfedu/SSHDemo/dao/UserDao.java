@@ -12,8 +12,6 @@ public interface UserDao {
 
 	void save(User u);
 
-	void deleteById(Integer id);
-	
 	User findById(Integer id);
 
 	void update(User user);
@@ -21,4 +19,8 @@ public interface UserDao {
 	List<User> findAll(Integer start, Integer length, String search, String loginDir);
 
 	Long countAll(String search);
+
+	User findByMobile(String mobile);
+
+	void delete(User po);
 }

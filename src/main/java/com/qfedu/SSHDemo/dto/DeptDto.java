@@ -24,7 +24,8 @@ public class DeptDto {
 	
 	private String parentName;
 	
-	private String positionNames;
+	private String positionIds="";
+	private String positionNames="";
 
 	
 	public DeptDto() {
@@ -43,7 +44,15 @@ public class DeptDto {
 			this.children = DeptDto.getDtos(d.getChildren(), false);
 		}
 		
-		if (d.getPositions().size()!=0) {
+		for (Position p : d.getPositions()) {
+			if (!positionIds.equals("")) {
+				positionIds += ",";
+				positionNames += ",";
+			}
+			positionIds += p.getId();
+			positionNames += p.getName();
+		}
+		/*if (d.getPositions().size()!=0) {
 			for (Position p : d.getPositions()) {
 				if (positionNames == null) {
 					positionNames = p.getName();
@@ -52,7 +61,7 @@ public class DeptDto {
 					positionNames += p.getName();
 				}
 			}
-		}
+		}*/
 	}
 	
 	
@@ -123,12 +132,23 @@ public class DeptDto {
 		this.positions = positions;
 	}
 	
+	
+	
+	public String getPositionIds() {
+		return positionIds;
+	}
+
+	public void setPositionIds(String positionIds) {
+		this.positionIds = positionIds;
+	}
+
 	public String getParentName(){
 		if (this.parent==null) {
 			return "";
 		}
 		return parent.getName();
 	}
+	
 	
 	public static List<DeptDto> getDtos(List<Dept> pos,Boolean loadChildren) {
 		ArrayList<DeptDto> dtos = new ArrayList<DeptDto>();

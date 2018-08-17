@@ -10,5 +10,13 @@ public interface DeptDao {
 
 	Long count(String search);
 
+	void save(Dept po);
+
+	Dept findById(Integer id);
+
+	void update(Dept po);
+
+	void delete(Dept po);
+
 
 }

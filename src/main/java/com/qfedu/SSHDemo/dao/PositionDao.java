@@ -10,5 +10,12 @@ public interface PositionDao {
 
 	Long countAllBy(String search);
 
+	Position findById(Integer id);
+	
+	void save(Position po);
+
+	void update(Position po);
+	
+	void delete(Position po);
 
 }

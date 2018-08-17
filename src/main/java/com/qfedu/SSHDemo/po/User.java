@@ -9,12 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 
 @Entity
@@ -40,7 +43,9 @@ public class User {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTime;
 	
-	@OneToMany(mappedBy="user")
+	@ManyToMany
+	@JoinTable(name = "t_user_role", joinColumns = @JoinColumn(name = "user_id"), 
+		inverseJoinColumns = @JoinColumn(name = "role_id"))
 	@JsonIgnore
 	private List<Role> roles = new ArrayList<Role>();
 

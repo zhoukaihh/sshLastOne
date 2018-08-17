@@ -16,6 +16,7 @@
                             <table width="100%" class="table table-striped table-bordered table-hover" id="menuTable">
                                 <thead>
                                     <tr>
+                                    	<th>ID</th>
                                         <th>图标</th>
                                         <th>菜单名</th>
                                         <th>上级</th>
@@ -50,8 +51,9 @@
                         "url": "${pageContext.request.contextPath}/menu/menus",
                         "type": "GET"
                     },
-                    "order": [[ 4, "asc" ]] ,
+                    "order": [[ 5, "asc" ]] ,
                     "columns": [
+                    	{ "data": "id" , "orderable" : false},
                     	{ "data": "icon" , "orderable" : false},
                     	{ "data": "name" , "orderable" : false},
                     	{ "data": "parentName" , "orderable" : false},
@@ -88,6 +90,10 @@
                 $('#' + tableId + '_length').append (" <a class='btn btn-primary btn-sm' onclick='createMenu();'>创建</a> <a class='btn btn-primary btn-warning btn-sm' onclick='deleteMenus();'>批量删除</a>");
             });
             
+            function createMenu (id) {
+            	$('#page-wrapper').load ('${pageContext.request.contextPath}/menu/create');
+            }
+            
             function deleteMenu (id) {
             	$.post ('${pageContext.request.contextPath}/menu/delete', {id : id}, function (result) {
 		    		if (result.success) {
@@ -99,7 +105,7 @@
             }
             
             function updateMenu (id) {
-            	window.location.href = '${pageContext.request.contextPath}/menu/update?id=' + id;
+            	$('#page-wrapper').load ('${pageContext.request.contextPath}/menu/update?id=' + id);
             }
             
             function createChild (id) {

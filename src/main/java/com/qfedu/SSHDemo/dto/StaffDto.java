@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.qfedu.SSHDemo.po.Position;
 import com.qfedu.SSHDemo.po.Staff;
 import com.qfedu.SSHDemo.po.User;
@@ -26,9 +27,13 @@ public class StaffDto {
 	
 	private User user;
 	
+	private Integer userId;
+	
 	private String userName;
 	
-	private String positionNames;
+	private String positionIds="";
+	
+	private String positionNames="";
 	
 	
 	public StaffDto() {
@@ -41,18 +46,17 @@ public class StaffDto {
 		this.birthday = s.getBirthday();
 		this.mobile = s.getMobile();
 		this.headImage = s.getHeadImage();
-		this.user = s.getUser();
-		
-		if (s.getPositions().size()!=0) {
+		this.user=s.getUser();
+		userId = s.getUser().getId();
+		userName = s.getUser().getName();
 			for (Position p : s.getPositions()) {
-				if (positionNames == null) {
-					positionNames = p.getName();
-				}else if(positionNames != ""){
+				if (!positionIds.equals("")) {
+					positionIds += ",";
 					positionNames += ",";
-					positionNames += p.getName();
 				}
+				positionIds += p.getId();
+				positionNames += p.getName();
 			}
-		}
 	}
 	
 	
@@ -90,6 +94,7 @@ public class StaffDto {
 		this.gender = gender;
 	}
 
+	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", locale = "zh", timezone="GMT+8")
 	public Date getBirthday() {
 		return birthday;
 	}
@@ -130,6 +135,28 @@ public class StaffDto {
 		this.user = user;
 	}
 	
+	
+	public String getPositionIds() {
+		return positionIds;
+	}
+
+	public void setPositionIds(String positionIds) {
+		this.positionIds = positionIds;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
 	public static List<StaffDto> getDtos(List<Staff> pos){
 		ArrayList<StaffDto> dtos = new ArrayList<StaffDto>();
 		for (Staff po : pos) {

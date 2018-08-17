@@ -16,6 +16,7 @@
                             <table width="100%" class="table table-striped table-bordered table-hover" id="deptTable">
                                 <thead>
                                     <tr>
+                                    	<th>ID</th>
                                         <th>部门名</th>
                                         <th>部门描述</th>
                                         <th>上级部门</th>
@@ -50,8 +51,9 @@
                         "url": "${pageContext.request.contextPath}/dept/list",
                         "type": "GET"
                     },
-                    "order": [[ 3, "asc" ]] ,
+                    "order": [[ 5, "asc" ]] ,
                     "columns": [
+                    	{ "data": "id" , "orderable" : false},
                     	{ "data": "name" , "orderable" : false},
                     	{ "data": "description", "orderable" : false},
                     	{ "data": "parentName", "orderable" : false},
@@ -71,11 +73,11 @@
 					}
                 	// 调用修改方法
                 	if ($(this).attr('name') == 'update') {
-                		updateMenu(data.id);
+                		updateDept(data.id);
                 	}
                 	// 调用删除方法
 					if ($(this).attr('name') == 'delete') {
-						deleteMenu (data.id);
+						deleteDept (data.id);
                 	}
                 } );
              	// 设置列表多选
@@ -85,28 +87,33 @@
                 } );
              	
                 // 添加工具栏按钮，找到设置分页的div，并添加创建和批量删除按钮的a标签
-                $('#' + tableId + '_length').append (" <a class='btn btn-primary btn-sm' onclick='createMenu();'>创建</a> <a class='btn btn-primary btn-warning btn-sm' onclick='deleteMenus();'>批量删除</a>");
+                $('#' + tableId + '_length').append (" <a class='btn btn-primary btn-sm' onclick='createDept();'>创建</a> <a class='btn btn-primary btn-warning btn-sm' onclick='deleteDepts();'>批量删除</a>");
             });
             
-            function deleteMenu (id) {
-            	$.post ('${pageContext.request.contextPath}/menu/delete', {id : id}, function (result) {
+            function deleteDept (id) {
+            	$.post ('${pageContext.request.contextPath}/dept/delete', {id : id}, function (result) {
 		    		if (result.success) {
-		    			location.reload ();
+		    			$('#page-wrapper').load ('${pageContext.request.contextPath}/dept');
 		    		} else {
 		    			alert ('删除用户失败！');
 		    		}
 		    	});
             }
             
-            function updateMenu (id) {
-            	window.location.href = '${pageContext.request.contextPath}/menu/update?id=' + id;
+            function updateDept (id) {
+            	$('#page-wrapper').load ('${pageContext.request.contextPath}/dept/update?id=' + id);
             }
             
             function createChild (id) {
-            	$('#page-wrapper').load ('${pageContext.request.contextPath}/menu/createChild?id=' + id);
+            	$('#page-wrapper').load ('${pageContext.request.contextPath}/dept/createChild?id=' + id);
             }
             
-            function deleteMenus () {
+            function createDept(){
+            	$('#page-wrapper').load ('${pageContext.request.contextPath}/dept/create');
+            }
+            
+            
+            function deleteDepts () {
             	// 获取DataTable
 		    	var tableId = 'menuTable';
 		    	var table = $('#' + tableId).DataTable();
@@ -130,6 +137,6 @@
 		    		ids += rows[i].id;
 		    	}
 		    	// 发送ajax请求，如果成功刷新本页面，否则提示用户操作失败
-		    	deleteMenu(ids);
+		    	deleteDept(ids);
 		    }
 		    </script>

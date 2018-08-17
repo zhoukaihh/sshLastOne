@@ -3,6 +3,7 @@ package com.qfedu.SSHDemo.po;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -42,7 +43,7 @@ public class Dept {
 	@JsonIgnore
 	private List<Dept> children = new ArrayList<Dept>();
 	
-	@OneToMany(mappedBy="dept")
+	@OneToMany(mappedBy="dept", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<Position> positions = new ArrayList<Position>();
 

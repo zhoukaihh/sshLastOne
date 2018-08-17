@@ -19,10 +19,6 @@ public class PositionDto {
 	
 	private Dept dept;
 	
-	private String staffNames;
-	
-	
-	
 	public PositionDto() {
 	}
 
@@ -32,17 +28,6 @@ public class PositionDto {
 		this.description = po.getDescription();
 		this.level = po.getLevel();
 		this.dept = po.getDept();
-		
-		if (po.getStaffs().size()!=0) {
-			for (Staff s : po.getStaffs()) {
-				if (staffNames == null) {
-					staffNames = s.getName();
-				}else if(staffNames != ""){
-					staffNames += ",";
-					staffNames += s.getName();
-				}
-			}
-		}
 	}
 
 	public Integer getId() {
@@ -90,14 +75,6 @@ public class PositionDto {
 			return "";
 		}
 		return dept.getName();
-	}
-	
-	public String getStaffNames() {
-		return staffNames;
-	}
-
-	public void setStaffNames(String staffNames) {
-		this.staffNames = staffNames;
 	}
 
 	public static List<PositionDto> getDtos(List<Position> pos){

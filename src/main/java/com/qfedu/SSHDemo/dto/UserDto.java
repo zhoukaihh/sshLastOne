@@ -22,7 +22,9 @@ public class UserDto {
 	
 	private Date createTime;
 	
-	private String roleNames;
+	private String roleIds="";
+	
+	private String roleNames="";
 	
 	public UserDto() {
 	}
@@ -35,16 +37,14 @@ public class UserDto {
 		this.gender = u.getGender();
 		this.createTime = u.getCreateTime();
 		
-		if (u.getRoles().size()!=0) {
 			for (Role r : u.getRoles()) {
-				if (roleNames == null) {
-					roleNames = r.getName();
-				}else if(roleNames != ""){
+				if (!roleIds.equals("")) {
+					roleIds += ",";
 					roleNames += ",";
-					roleNames += r.getName();
 				}
+					roleIds += r.getId();
+					roleNames += r.getName();
 			}
-		}
 	}
 
 	public Integer getId() {
@@ -102,6 +102,15 @@ public class UserDto {
 
 	public void setRoleNames(String roleNames) {
 		this.roleNames = roleNames;
+	}
+
+	
+	public String getRoleIds() {
+		return roleIds;
+	}
+
+	public void setRoleIds(String roleIds) {
+		this.roleIds = roleIds;
 	}
 
 	/**

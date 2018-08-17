@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.qfedu.SSHDemo.dao.UserDao;
 import com.qfedu.SSHDemo.dto.UserDto;
+import com.qfedu.SSHDemo.po.Role;
 import com.qfedu.SSHDemo.po.User;
 import com.qfedu.SSHDemo.service.UserService;
 import com.qfedu.SSHDemo.vo.DataTable;
@@ -54,45 +55,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	/**
-	 * 保存用户，这里要将Dto转成po
+	 * 获取用户列表信息
 	 */
-	@Override
-	public void save(UserDto u) {
-		User user = new User();
-		
-		user.setLoginName(u.getLoginName());
-		user.setName(u.getName());
-		user.setPassword(u.getPassword());
-		user.setGender(u.getGender());
-		user.setCreateTime(u.getCreateTime());
-		userDao.save(user);	
-	}
-
-	@Override
-	public void deleteById(Integer[] ids) {
-		for (Integer id : ids) {
-			userDao.deleteById(id);	
-		}
-			
-	}
-
-	@Override
-	public UserDto findById(Integer id) {
-		
-		User user = userDao.findById(id);
-		
-		return new UserDto(user);
-	}
-
-	@Override
-	public void update(UserDto u) {
-			User po = userDao.findById(u.getId());
-			 
-			po.setLoginName(u.getLoginName());
-			po.setName(u.getName());
-			userDao.update(po);
-	}
-
 	@Override
 	public DataTable findBySearch(Integer start, Integer length, String search, String loginDir) {
 		List<User> pos = userDao.findAll(start,length,search,loginDir);
@@ -103,6 +67,80 @@ public class UserServiceImpl implements UserService{
 		data.setRecordsTotal(count);
 		
 		return data;
+	}
+	
+	/**
+	 * 保存用户，这里要将Dto转成po
+	 */
+	@Override
+	public void save(UserDto u,Integer[] roleIds) {
+		User user = new User();
+		
+		user.setLoginName(u.getLoginName());
+		user.setName(u.getName());
+		user.setPassword(u.getPassword());
+		user.setGender(u.getGender());
+		user.setCreateTime(u.getCreateTime());
+
+		List<Role> roles = new ArrayList<Role>();
+		for (Integer id : roleIds) {
+			Role role = new Role();
+			role.setId(id);
+			roles.add(role);
+		}
+		user.setRoles(roles);
+		
+		userDao.save(user);	
+	}
+
+	/**
+	 * 通过id查询用户
+	 */
+	@Override
+	public UserDto findById(Integer id) {
+		
+		User user = userDao.findById(id);
+		
+		return new UserDto(user);
+	}
+
+	/**
+	 * 修改用户信息
+	 */
+	@Override
+	public void update(UserDto u,Integer[] roleIds) {
+			User po = userDao.findById(u.getId());
+			 
+			po.setId(u.getId());
+			po.setLoginName(u.getLoginName());
+			po.setName(u.getName());
+			po.setGender(u.getGender());
+			po.setCreateTime(u.getCreateTime());
+			po.setPassword(u.getPassword());
+			
+			ArrayList<Role> roles = new ArrayList<Role>();
+			for (Integer id : roleIds) {
+				Role role = new Role();
+				role.setId(id);
+				roles.add(role);
+			}
+			po.setRoles(roles);
+			
+			userDao.update(po);
+	}
+
+	/**
+	 * 通过id删除批量删除用户
+	 */
+	@Override
+	public void delete(Integer[] ids, UserDto dto) {
+		for (Integer id : ids) {
+			if (id.equals(dto.getId())) {
+				throw new RuntimeException("当前用户无法删除");
+			}
+			User user = userDao.findById(id);
+			userDao.delete(user);
+		}
 	}
 
 }

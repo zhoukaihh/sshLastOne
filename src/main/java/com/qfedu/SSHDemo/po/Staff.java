@@ -31,7 +31,7 @@ public class Staff {
 	@Column(length=10)
 	private String gender;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date birthday;
 	
 //	作为登录名

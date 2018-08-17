@@ -18,6 +18,7 @@
                                         <div class="form-group">
                                             <label>菜单名</label>
                                             <input class="form-control"  name="name" value="${menu.name}" >
+                                            <input type="hidden" name="parent.id" value="${parentId }">
                                         </div>
                                         <div class="form-group">
                                             <label>URL</label>

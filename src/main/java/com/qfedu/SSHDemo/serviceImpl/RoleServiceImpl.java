@@ -31,6 +31,9 @@ public class RoleServiceImpl implements RoleService {
 	@Resource
 	private RoleDao roleDao;
 	
+	/**
+	 *查询角色列表信息
+	 */
 	@Override
 	public DataTable findBySearch(Integer start, Integer length, String search, String nameDir) {
 		List<Role> roles = roleDao.findAllBy( start,  length,  search,  nameDir);
@@ -43,6 +46,9 @@ public class RoleServiceImpl implements RoleService {
 		return data;
 	}
 
+	/**
+	 *创建角色
+	 */
 	@Override
 	public void create(RoleDto r, Integer[] menuIds) {
 
@@ -60,12 +66,18 @@ public class RoleServiceImpl implements RoleService {
 		roleDao.create(role);
 	}
 
+	/**
+	 *通过id查询角色
+	 */
 	@Override
 	public RoleDto findById(Integer id) {
 		Role r = roleDao.faindById(id);
 		return new RoleDto(r);
 	}
 
+	/**
+	 *修改角色信息
+	 */
 	@Override
 	public void update(RoleDto r, Integer[] menuIds) {
 		Role po = roleDao.faindById(r.getId());
@@ -84,14 +96,15 @@ public class RoleServiceImpl implements RoleService {
 		roleDao.update(po);
 	}
 
+	/**
+	 *删除批量或单个角色
+	 */
 	@Override
-	public void delete(Integer id) {
-		Role po1 = roleDao.faindById(id);
-		User user = new User();
-		po1.setUser(user);
-		roleDao.update(po1);
-		Role po2 = roleDao.faindById(id);
-		roleDao.delete(po2);
+	public void delete(Integer[] ids) {
+		for (Integer id : ids) {
+			Role po = roleDao.faindById(id);
+			roleDao.delete(po);
+		}
 	}
 
 }
